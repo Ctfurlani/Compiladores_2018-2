@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include "hash.h"
 
-HASH_NODE*Table[HASH_SIZE]
-~
+HASH_NODE*Table[HASH_SIZE];
+
+
 void hashInit(void)
 {
 	int i;
@@ -15,16 +16,16 @@ int hashAddress(char *text)
 	int i;
 	int address =1;
 	for (i=0; i<strlen(text); ++i)
-		address = (address*text[i])%HASH_SIZE +1
+		address = (address*text[i])%HASH_SIZE +1;
 	return address-1;
 }
 
-HASH_NODE* hashInsert (int type, char *text)
+HASH_NODE* hashInsert(int type, char *text)
 {
 	HASH_NODE *newnode;
 	int address;
-	address = hasAddress(text);
-	if (newnode = hasFind(text))
+	address = hashAddress(text);
+	if (newnode = hashFind(text))
 		return newnode;
 
 	newnode = (HASH_NODE*) calloc(1,sizeof(HASH_NODE));
@@ -40,19 +41,20 @@ HASH_NODE* hashFind(char *text)
 {
 	HASH_NODE *node;
 	int address;
-	address = hasAddress(text);
+	address = hashAddress(text);
+
 	for(node=Table[address]; node; node = node->next)
-		if(!strcmp(text,node->text)
+		if(!strcmp(text,node->text) )
 			return node;
 	return 0;
 }
 
-void hashPrint(void);
+void hashPrint(void)
 {
 	HASH_NODE *node;
 
 	int i;
 	for(i=0; i<HASH_SIZE; ++i)
-		for(node=table[i]; node; node = node->next)
+		for(node=Table[i]; node; node = node->next)
 			fprintf(stderr, "Table[%d] has %s\n",i,node->text);
 }
