@@ -1,7 +1,13 @@
 %{
 
+#define LIT 0
+#define ID 1
 
 int lineNumber = 1;
+char letter[1];
+char strF[sizeof(yytext)], str[sizeof(yytext)];
+char tok;
+
 
 #include "tokens.h"
 #include "hash.c"
@@ -32,12 +38,20 @@ int lineNumber = 1;
 "<="		{ return OPERATOR_LE; }
 "=="		{ return OPERATOR_EQ;}
 
-[-0-9]+			{ hashInsert(0, yytext); return LIT_INTEGER; }
-[-0-9]*\.?[-0-9]+ 	{ hashInsert(0, yytext); return LIT_FLOAT; }
-'(([^']|(\\.)))?'	{ hashInsert(0, yytext); return LIT_CHAR; }
-\"([^\"\\n]|\\.)*\" 	{ hashInsert(0, yytext); return LIT_STRING; }
+[-0-9]+			{ hashInsert(LIT, yytext); return LIT_INTEGER; } 
+[-0-9]*\.?[-0-9]+ 	{ hashInsert(LIT, yytext); return LIT_FLOAT; }
+'(([^']|(\\.)))?'	{ 
+			  *letter = yytext[1]; 
+			  hashInsert(LIT, letter); 
+			  return LIT_CHAR; 
+			}
+\"([^\"\\n]|\\.)*\" 	{
+			  strncpy(str, (yytext+1), strlen(yytext)-2 );
+			  hashInsert(LIT, str); 
+			  return LIT_STRING; 
+			}
 
-[_ACE-OR-Zace-or-z0-9][_ACE-OR-Zace-or-z0-9]*		{ hashInsert(0, yytext); return TK_IDENTIFIER; }
+[_ACE-OR-Zace-or-z0-9][_ACE-OR-Zace-or-z0-9]*		{ hashInsert(ID, yytext); return TK_IDENTIFIER; }
 [-;:=+*,bdpq{}/<>!&$#]		{ return yytext[0]; }
 
 
