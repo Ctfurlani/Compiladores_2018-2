@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include"lex.yy.h"
+
 int yylex();
 extern char *yytext;
 extern FILE *yyin;
@@ -53,5 +54,8 @@ int main(int argc, char** argv)
     }
   printf("NOTA %d\n\n",nota);  
   fprintf(stderr,"NOTA %d\n\n",nota); 
-  printHash(); 
+  printf("Hash Print:\n");
+  hashPrint(); 
+  printf("\nLINHAS: ");
+printf("%d\n", getLineNumber());
   }

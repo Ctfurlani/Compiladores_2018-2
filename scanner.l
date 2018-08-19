@@ -32,12 +32,12 @@ int lineNumber = 1;
 "<="		{ return OPERATOR_LE; }
 "=="		{ return OPERATOR_EQ;}
 
-[-0-9]+			{ hashInsert(0,yytext); return LIT_INTEGER; }
+[-0-9]+			{ hashInsert(0, yytext); return LIT_INTEGER; }
 [-0-9]*\.?[-0-9]+ 	{ hashInsert(0, yytext); return LIT_FLOAT; }
-'(([^']|(\\.)))?'		{ hashInsert(0, yytext); return LIT_CHAR; }
+'(([^']|(\\.)))?'	{ hashInsert(0, yytext); return LIT_CHAR; }
 \"([^\"\\n]|\\.)*\" 	{ hashInsert(0, yytext); return LIT_STRING; }
 
-[_ACE-OR-Zace-or-z0-9][_ACE-OR-Zace-or-z0-9]*		{ hashInsert(0,yytext); return TK_IDENTIFIER; }
+[_ACE-OR-Zace-or-z0-9][_ACE-OR-Zace-or-z0-9]*		{ hashInsert(0, yytext); return TK_IDENTIFIER; }
 [-;:=+*,bdpq{}/<>!&$#]		{ return yytext[0]; }
 
 
