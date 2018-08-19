@@ -3,11 +3,15 @@
 
 int lineNumber = 1;
 
-#include "hash.c"
 #include "tokens.h"
+#include "hash.c"
+
 %}
 
 %x COMMENT
+%x STRING
+
+
 
 %%
 
@@ -28,40 +32,40 @@ int lineNumber = 1;
 "<="		{ return OPERATOR_LE; }
 "=="		{ return OPERATOR_EQ;}
 
-[0-9]+		{ hashInsert(0,yytext); return LIT_INTEGER; }
-[0-9]+[.0-9]* 	{ hashInsert(0,yytext); return LIT_FLOAT; }
-		
+[-0-9]+			{ hashInsert(0,yytext); return LIT_INTEGER; }
+[-0-9]*\.?[-0-9]+ 	{ hashInsert(0, yytext); return LIT_FLOAT; }
+'(([^']|(\\.)))?'		{ hashInsert(0, yytext); return LIT_CHAR; }
+\"([^\"\\n]|\\.)*\" 	{ hashInsert(0, yytext); return LIT_STRING; }
 
-[-;:=+*,{}/<>!&$#]	{ return yytext[0]; }
+[_ACE-OR-Zace-or-z0-9][_ACE-OR-Zace-or-z0-9]*		{ hashInsert(0,yytext); return TK_IDENTIFIER; }
+[-;:=+*,bdpq{}/<>!&$#]		{ return yytext[0]; }
 
-[A-Za-z_0-9][A-Za-z_0-9]*	{ hashInsert(0,yytext); return TK_IDENTIFIER; }
 
 "//".*
 
 "/*" { BEGIN(COMMENT);}
 <COMMENT>"*/" {BEGIN(INITIAL);}
-<COMMENT>"\n" { ++lineNumber; }
+<COMMENT>\n { ++lineNumber; }
 <COMMENT>.
 
-[ \t]
-"\n"	{ ++lineNumber; }
+[ \t]					/* whitespace */
+\n	{ ++lineNumber; }
 .	{ return TOKEN_ERROR; }
 
 %%
 
-//#include "main.c"
-
 
 int running = 1;
-
 void initMe(void){
-  hashInit();
+	hashInit();
 }
 
 int isRunning(void){
- return running;
+	return running;
 }
-
+int getLineNumber(void){
+	return lineNumber;
+}
 
 int yywrap()
 {
