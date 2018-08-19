@@ -17,7 +17,6 @@ int hashAddress(char *text)
 	int address =1;
 	for (i=0; i<strlen(text); ++i)
 		address = (address*text[i])%HASH_SIZE +1;
-	printf("Address %d\n", address);
 	return address-1;
 }
 
@@ -28,7 +27,6 @@ HASH_NODE* hashInsert(int type, char *text)
 	address = hashAddress(text);
 	
 	if (newnode = hashFind(text)){
-		printf("Already exists\n");
 		return newnode;
 	}
 
@@ -36,7 +34,6 @@ HASH_NODE* hashInsert(int type, char *text)
 	newnode->type = type;	
 	newnode->text = calloc(strlen(text)+1,sizeof(char));
 	strcpy(newnode->text, text);
-	newnode->text = Table[address];
 	Table[address] = newnode;
 	
 	return newnode;
@@ -47,10 +44,8 @@ HASH_NODE* hashFind(char *text)
 	HASH_NODE *node;
 	int address;
 	address = hashAddress(text);
-	printf("HashFind text: %s\n", text);
-
+	
 	for(node=Table[address]; node; node = node->next){
-		printf("Node text: %s\n", node->text);
 		if(!strcmp(text,node->text) )
 			return node;
 	}

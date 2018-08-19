@@ -54,8 +54,8 @@ int main(int argc, char** argv)
     }
   printf("NOTA %d\n\n",nota);  
   fprintf(stderr,"NOTA %d\n\n",nota); 
-  printf("Hash Print:\n");
+  printf("\nHash Print:\n");
   hashPrint(); 
   printf("\nLINHAS: ");
-printf("%d\n", getLineNumber());
+  printf("%d\n", getLineNumber());
   }
