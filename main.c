@@ -17,7 +17,7 @@ int main(int argc, char** argv)
   int answar = 0;
   int nota = 0;
   int i=1;
-      fprintf(stderr,"Rodando main do prof. \n");
+      fprintf(stderr,"Rodando main de hash. \n");
 
   if (argc < 3)
     {
@@ -52,5 +52,6 @@ int main(int argc, char** argv)
     ++i;
     }
   printf("NOTA %d\n\n",nota);  
-  fprintf(stderr,"NOTA %d\n\n",nota);  
+  fprintf(stderr,"NOTA %d\n\n",nota); 
+  printHash(); 
   }
