@@ -5,7 +5,7 @@
 
 int lineNumber = 1;
 char letter[1];
-char strF[sizeof(yytext)], str[sizeof(yytext)];
+char str[sizeof(yytext)];
 char tok;
 
 
