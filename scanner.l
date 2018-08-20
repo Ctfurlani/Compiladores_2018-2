@@ -10,7 +10,8 @@ char tok;
 
 
 #include "tokens.h"
-#include "hash.c"
+#include "hash.h"
+
 
 %}
 
@@ -67,7 +68,6 @@ char tok;
 .	{ return TOKEN_ERROR; }
 
 %%
-
 
 int running = 1;
 void initMe(void){

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include"lex.yy.h"
+
 
 int yylex();
 extern char *yytext;
@@ -18,7 +18,7 @@ int main(int argc, char** argv)
   int answar = 0;
   int nota = 0;
   int i=1;
-      fprintf(stderr,"Rodando main de hash. \n");
+      fprintf(stderr,"Rodando main de hash mesclada com a do prof. \n");
 
   if (argc < 3)
     {
