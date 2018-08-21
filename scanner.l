@@ -5,7 +5,7 @@
 
 int lineNumber = 1;
 char letter[1];
-char str[sizeof(yytext)];
+char str[1024];
 char tok;
 
 
@@ -39,21 +39,23 @@ char tok;
 "<="		{ return OPERATOR_LE; }
 "=="		{ return OPERATOR_EQ;}
 
-[-0-9]+			{ hashInsert(LIT, yytext); return LIT_INTEGER; } 
-[-0-9]*\.?[-0-9]+ 	{ hashInsert(LIT, yytext); return LIT_FLOAT; }
+[-;:=+*,bdpq{}/<>!&$#]		{ return yytext[0]; }
+
+-?[0-9]+			{ hashInsert(LIT, yytext); return LIT_INTEGER; } 
+-?[0-9]*\.?[0-9]+ 	{ hashInsert(LIT, yytext); return LIT_FLOAT; }
 '(([^']|(\\.)))?'	{ 
 			  *letter = yytext[1]; 
 			  hashInsert(LIT, letter); 
 			  return LIT_CHAR; 
 			}
-\"([^\"\\n]|\\.)*\" 	{
+\"([^\"\n])*\" 	{
 			  strncpy(str, (yytext+1), strlen(yytext)-2 );
 			  hashInsert(LIT, str); 
 			  return LIT_STRING; 
 			}
 
 [_ACE-OR-Zace-or-z0-9][_ACE-OR-Zace-or-z0-9]*		{ hashInsert(ID, yytext); return TK_IDENTIFIER; }
-[-;:=+*,bdpq{}/<>!&$#]		{ return yytext[0]; }
+
 
 
 "//".*
