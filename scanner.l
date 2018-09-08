@@ -1,22 +1,17 @@
 %{
-
-#define LIT 0
-#define ID 1
-
 int lineNumber = 1;
 char letter[1];
-char str[sizeof(yytext)];
+char str[1024];
 char tok;
 
-
-#include "tokens.h"
 #include "hash.h"
+#include "y.tab.h"
+#include "main.c"
 
 
 %}
 
 %x COMMENT
-%x STRING
 
 
 
@@ -39,21 +34,29 @@ char tok;
 "<="		{ return OPERATOR_LE; }
 "=="		{ return OPERATOR_EQ;}
 
-[-0-9]+			{ hashInsert(LIT, yytext); return LIT_INTEGER; } 
-[-0-9]*\.?[-0-9]+ 	{ hashInsert(LIT, yytext); return LIT_FLOAT; }
+[-;:=+*,bdpq{}/<>!&$#]		{ return yytext[0]; }
+
+-?([0-9]+)			{ yylval.symbol = hashInsert(LIT_INTEGER, yytext);
+				  return LIT_INTEGER; } 
+
+-?[0-9]*\.?[0-9]+ 	{ yylval.symbol = hashInsert(LIT_FLOAT, yytext); 
+			  return LIT_FLOAT; }
+
 '(([^']|(\\.)))?'	{ 
 			  *letter = yytext[1]; 
-			  hashInsert(LIT, letter); 
+			  yylval.symbol = hashInsert(LIT_CHAR, letter); 
 			  return LIT_CHAR; 
 			}
-\"([^\"\\n]|\\.)*\" 	{
+
+\"([^\"\n])*\" 	{
 			  strncpy(str, (yytext+1), strlen(yytext)-2 );
-			  hashInsert(LIT, str); 
+			  yylval.symbol = hashInsert(LIT_STRING, str); 
 			  return LIT_STRING; 
+
 			}
 
-[_ACE-OR-Zace-or-z0-9][_ACE-OR-Zace-or-z0-9]*		{ hashInsert(ID, yytext); return TK_IDENTIFIER; }
-[-;:=+*,bdpq{}/<>!&$#]		{ return yytext[0]; }
+[_ACE-OR-Zace-or-z0-9][_ACE-OR-Zace-or-z0-9]*		{ yylval.symbol = hashInsert(TK_IDENTIFIER, yytext); return TK_IDENTIFIER; }
+
 
 
 "//".*
@@ -72,6 +75,7 @@ char tok;
 int running = 1;
 void initMe(void){
 	hashInit();
+	
 }
 
 int isRunning(void){
@@ -81,8 +85,9 @@ int getLineNumber(void){
 	return lineNumber;
 }
 
+
 int yywrap()
 {
-running = 0;
-return 1;
+	running = 0;
+	return 1;
 }

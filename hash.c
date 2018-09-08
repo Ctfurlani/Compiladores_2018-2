@@ -28,7 +28,7 @@ HASH_NODE* hashInsert(int type, char *text)
 	int address;
 	address = hashAddress(text);
 	
-	if (newnode = hashFind(text)){
+	if ( (newnode = hashFind(text)) != 0){
 		return newnode;
 	}
 
