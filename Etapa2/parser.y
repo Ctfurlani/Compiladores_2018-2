@@ -129,7 +129,7 @@ literal 	: LIT_INTEGER  {fprintf(stderr,"Achei um LIT_INT %d \n", getLineNumber(
 			| LIT_FLOAT
 			| LIT_CHAR
 			;
-/*FUNCTIONS*/	
+/*FUNCTIONS AND PROCEDURES*/	
 function	: TK_IDENTIFIER 'd' proc_params 'b'		{fprintf(stderr,"Achei uma funcao\n");} 
 			;
 			
@@ -145,7 +145,7 @@ proc_params	: expr
 			| proc_params ',' expr  
 			| /*empty*/
 			;	
-/* COMMANDS BLOCK*/		
+/* BLOCK AND COMMAND BLOCKS*/		
 block		: '{' block_cmd '}'			{fprintf(stderr,"Achei um bloco\n");}
 			;
 		
