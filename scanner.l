@@ -36,12 +36,12 @@ char tok;
 
 [-;:=+*,bdpq{}/<>!&$#]		{ return yytext[0]; }
 
-
 -?([0-9]+)			{ yylval.symbol = hashInsert(LIT_INTEGER, yytext);
 				  return LIT_INTEGER; } 
 
 -?[0-9]*\.?[0-9]+ 	{ yylval.symbol = hashInsert(LIT_FLOAT, yytext); 
 			  return LIT_FLOAT; }
+
 '(([^']|(\\.)))?'	{ 
 			  *letter = yytext[1]; 
 			  yylval.symbol = hashInsert(LIT_CHAR, letter); 
@@ -55,9 +55,7 @@ char tok;
 
 			}
 
-
 [_ACE-OR-Zace-or-z0-9][_ACE-OR-Zace-or-z0-9]*		{ yylval.symbol = hashInsert(TK_IDENTIFIER, yytext); return TK_IDENTIFIER; }
-
 
 
 
