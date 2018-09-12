@@ -24,7 +24,7 @@ int main(int argc, char** argv)
     exit(1);
     }
   yyparse();
-  printf("Concluído\n");
+  printf("Concluido\n");
   return 0;
 
   }
