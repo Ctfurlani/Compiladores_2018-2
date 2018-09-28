@@ -11,7 +11,7 @@ extern int getLineNumber();
 int main(int argc, char** argv)
   {
   initMe();
-  fprintf(stderr,"Rodando main da estapa2 \n");
+  fprintf(stderr,"Rodando main da etapa2 \n");
 
   if (argc < 2)
     {
@@ -24,7 +24,7 @@ int main(int argc, char** argv)
     exit(1);
     }
   yyparse();
-
+  printf("Concluido\n");
   return 0;
 
   }
